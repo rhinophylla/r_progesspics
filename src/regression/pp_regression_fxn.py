@@ -74,8 +74,8 @@ def lin_regr_diagnostic_plots(y, x, df):
 
     return fig
 
-# These functions implement the "best subsets" regression procedure
 
+# These functions implement the "best subsets" regression procedure
 def process_subset(y, feature_set, df):
     """Generates a linear regression model and returns the number of independent variables it contains, the
     names of the independent variables, the model, and the model's RSS value, R-squared value, and R-squared-adjusted
@@ -88,6 +88,7 @@ def process_subset(y, feature_set, df):
     R_squared = regr.rsquared
     R_squared_adj = regr.rsquared_adj
     return {"num_predictors": len(feature_set), "predictors": feature_set, "RSS": RSS, "rsquared": R_squared, "rsquared_adj": R_squared_adj, "model":regr}
+
 
 def get_best(y, df, features, k):
     """Generates all possible combinations of independent variables, generates linear regression models using the
@@ -104,9 +105,9 @@ def get_best(y, df, features, k):
     #print("Best model", best_model)
     return best_model
 
+
 def subset_linear_regression(y, df, exclude):
-    """Generates regression models using all possible combinations of independent variables, then chooses the models
-    with the highest R-squared-adj values.
+    """Generates regression models using all possible combinations of independent variables, then chooses the models with the highest R-squared-adj values.
 
     Arguments:
     y -- column name of the dependent variable; provide a string
@@ -132,8 +133,8 @@ def subset_linear_regression(y, df, exclude):
         models = pd.concat([models, get_best(y, df, features, i)], sort=True)
     return models
 
-# These functions implement the "forward stepwise" regression procedure
 
+# These functions implement the "forward stepwise" regression procedure
 def process_subset_ttest(y, feature_set, df):
     """Generates a linear regression model and returns the t-test p-values for all the included independent variables.
     """
@@ -146,6 +147,7 @@ def process_subset_ttest(y, feature_set, df):
     #print(results_series)
     return results_series
 
+
 def process_best_model(y, feature_set, df):
     """Generates a linear regression model and returns the number of independent variables it contains, the names of the independent variables, the model, and the model's RSS value, R-squared value, and R-squared-adjusted value.
     """
@@ -156,6 +158,7 @@ def process_best_model(y, feature_set, df):
     R_squared = regr.rsquared
     R_squared_adj = regr.rsquared_adj
     return {"num_predictors": len(feature_set), "predictors": feature_set, "RSS": RSS, "rsquared": R_squared, "rsquared_adj": R_squared_adj, "model":regr}
+
 
 def forward_stepwise(y, predictors, y_and_exclude, df):
     """Takes the existing regression model and adds each remaining independent variable to it one at a time.  Compares the t-test p-values of new models and identifies the lowest t-test p-value.  If all variables are below the
@@ -194,6 +197,7 @@ def forward_stepwise(y, predictors, y_and_exclude, df):
                 new_predictors.append(index)
     #print("new_predictors:", new_predictors)
     return(new_predictors)
+
 
 def stepwise_linear_regression(y, df, exclude):
     """First, individually evaluates independent variables in a linear regression model. The independent variable with the lowest t-test p-value becomes the starting model.  Then the remainder of the independent variables are individually added to the starting model.  If none have a significant t-test p-value then the process ends, but if one or many do, the one with the lowest t-test p-value is retained and a new starting model is established (after it is determined that the original independent variable still has a significant t-test p-value).  This process is repeated until no newly added independent variablies have a significant t-test p-value.  The best model from each step is returned.

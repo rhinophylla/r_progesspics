@@ -277,6 +277,7 @@ logger.info("Exploratory data analysis will first be performed on the larger dat
 time.sleep(5)
 
 plt.style.use('ggplot')
+plt.rcParams['figure.figsize'] = (10, 5)
 
 # sex analysis
 
